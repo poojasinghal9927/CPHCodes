@@ -35,6 +35,5 @@ int main()
 		}
 
 	cout << "Length of Longest Common Subsequence is "<< array[L1.size()][L2.size()] << '\n';
-	cout << L3 ;
 	return 0;
 }
