@@ -1,7 +1,7 @@
 // Binary Indexed Tree or Fenwick Tree
 /*
 Dunamic version of prefix sum approach
-O(n*log(n) range sum query and element update
+O(log(n) range sum query and element update
 
 Implementation of index 1 based is easier given in book
 Code updated for 0 based indexing below
@@ -12,7 +12,6 @@ Note2: Fenwick tree can only support sum queries, Segment tree with twice memory
 
 using namespace std;
 
-// Initally index 0 should not be used
 vector<int> tree;
 
 int sum(int k)
