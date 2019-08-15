@@ -8,7 +8,7 @@ There is wrap around of numbers due to overflow, which comes in both signed and 
 */
 
 #include<bits/stdc++.h>
-main()
+int main()
 {
 	return 0;
 }
