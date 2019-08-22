@@ -6,6 +6,13 @@
 
 using namespace std;
 
+int n;
+
+// adjancency list representation
+map<int,vector<int>> adj;
+vector<bool> processed;
+vector<tuple<int,int,int>> edges; //edges list reprsentation
+
 
 void bellman_ford(int x)
 {
@@ -35,7 +42,8 @@ void bellman_ford(int x)
 
 void dijkstra(int x)
 {
-	queue<pair<int,int>> q;
+	// Default version of Priority queue finds maximum, hence -ve used
+	priority_queue<pair<int,int>> q;
 	// Adjacency list representation a -> [(b,w),] assumed
 	for (int i = 0; i < n; i++)
 		distance[i] = INF;
@@ -57,9 +65,46 @@ void dijkstra(int x)
 			}
 		}
 	}
+	/*
+	Complexity is O(m + n*log(n)), as each edge is processed once only
+	*/
 }
 
 int main()
 {
+	cout << "Enter number of nodes" << '\n';
+	cin >> n;
+	for(int i=0;i<n;i++)
+		distance.push_back(0);
+	
+	for(int i=0;i<N;i++)
+	{
+		visited.push_back(false);
+		adj[i] = vector<int> ();
+	}
+
+
+	for(int i=0,n;i<N;i++)
+	{
+		cout << "Enter |Edges| from " << i << '\n';
+		cin >> n;
+		cout << "Enter " << n << " nodes" << '\n';
+		for(int j=0,t,w;j<n;j++)
+		{
+			cin >> t >> w;
+			adj[i].push_back(t);
+			edges.push_back(make_tuple(i,t,w));
+		}
+	}
+	
+	puts("Adjaceny List is as follows");
+	for(int i=0;i<N;i++)
+	{
+		cout << i << " : ";
+		for(auto x:adj[i])
+			cout << x << ' ';
+		cout << '\n';
+	}
+
 	return 0;
 }

@@ -34,7 +34,7 @@ for bipartite(2-color) we find k=2, for k=3 and beyond, problem is NP-Hard
 
 using namespace std;
 
-
+// adjancency list representation
 map<int,vector<int>> adj;
 vector<bool> visited;
 vector<int> level_difference;
