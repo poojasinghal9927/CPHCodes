@@ -1,7 +1,6 @@
 // Shortest Paths
 /*
-This will will provdie code of Bellman Ford & Dijkstra Algorithm
-Another will have floyd warshall algorithm
+Floyd Warshall Algorithm
 */
 
 #include<bits/stdc++.h>
@@ -19,61 +18,24 @@ map<int,vector<pair<int,int>>> adj;
 vector<tuple<int,int,int>> edges;
 
 
-void bellman_ford(int x)
+void floyd_warshall(int x)
 {
-	// Edge List representation assumed
 	for (int i = 0; i < n; i++)
-		source_distance[i] = INFINITY;
-	source_distance[x] = 0;
-
-	// (n-1) rounds as maximum length cycle of n nodes
-	for (int i = 0; i < n-1; i++)
-	{
-		for (auto e : edges)
+		for (int j = 0; j < n; j++)
 		{
-			int a, b, w;
-			tie(a, b, w) = e;
-			source_distance[b] = min(source_distance[b], source_distance[a]+w);
+			if (i == j)
+				distance[i][j] = 0;
+			else if (adj[i][j])
+				distance[i][j] = adj[i][j];
+			else
+				distance[i][j] = INFINITY;
 		}
-	}
-	/*
-	Note: an improvement to bellmann ford (SPFA), you can use a queue
-	to place target of the relax edges in that queue, next time	edges
-	starting from those target vertices should be tried for	relaxation,
-	not all vertices.
-	Worst case will still be O(m*n)
-	*/
-}
-
-void dijkstra(int x)
-{
-	// Default version of Priority queue finds maximum, hence -ve used
-	priority_queue<pair<int,int>> q;
-	// Adjacency list representation a -> [(b,w),] assumed
-	for (int i = 0; i < n; i++)
-		source_distance[i] = INFINITY;
-	source_distance[x] = 0;
-	q.push(make_pair(0,x));
-	while (!q.empty())
-	{
-		int a = q.top().second; q.pop();
-		if (processed[a])
-			continue;
-		processed[a] = true;
-		for (auto u : adj[a])
-		{
-			int b = u.first, w = u.second;
-			if (source_distance[a]+w < source_distance[b])
-			{
-				source_distance[b] = source_distance[a]+w;
-				q.push({-source_distance[b],b});
-			}
-		}
-	}
-	/*
-	Complexity is O(m + n*log(n)), as each edge is processed once only
-	*/
-}
+	// o(n**3) time complexity comes from this loop
+	for (int k = 0; k < n; k++)
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < n; j++)
+				distance[i][j] = min( distance[i][j], distance[i][k]+distance[k][j] );
+ }
 
 int main()
 {
