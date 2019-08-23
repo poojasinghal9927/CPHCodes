@@ -9,32 +9,28 @@ using namespace std;
 
 int n; // Number of Nodes
 // DS where distances will be stored
-vector<int> source_distance;
-// To be used by Dijkstra Algorithm
-vector<bool> processed;
+vector<vector<int>> source_distance;
 // adjancency list representation
-map<int,vector<pair<int,int>>> adj;
-//edges list reprsentation for Bellman-Ford
-vector<tuple<int,int,int>> edges;
+map<int,map<int,int>> adj;
 
 
-void floyd_warshall(int x)
+void floyd_warshall()
 {
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++)
 		{
 			if (i == j)
-				distance[i][j] = 0;
-			else if (adj[i][j])
-				distance[i][j] = adj[i][j];
+				source_distance[i][j] = 0;
+			else if (adj[i].count(j))
+				source_distance[i][j] = adj[i][j];
 			else
-				distance[i][j] = INFINITY;
+				source_distance[i][j] = INFINITY;
 		}
 	// o(n**3) time complexity comes from this loop
 	for (int k = 0; k < n; k++)
 		for (int i = 0; i < n; i++)
 			for (int j = 0; j < n; j++)
-				distance[i][j] = min( distance[i][j], distance[i][k]+distance[k][j] );
+				source_distance[i][j] = min( source_distance[i][j], source_distance[i][k]+source_distance[k][j] );
  }
 
 int main()
@@ -43,14 +39,10 @@ int main()
 	cin >> n;
 
 	for(int i=0;i<n;i++)
-		source_distance.push_back(0);
-	
-	for(int i=0;i<n;i++)
 	{
-		processed.push_back(false);
-		adj[i] = vector<pair<int,int>> ();
+		source_distance.push_back(vector<int>(n,0));
+		adj[i] = map<int,int> ();
 	}
-
 
 	for(int i=0,k;i<n;i++)
 	{
@@ -60,8 +52,7 @@ int main()
 		for(int j=0,t,w;j<k;j++)
 		{
 			cin >> t >> w;
-			adj[i].push_back(make_pair(t,w));
-			edges.push_back(make_tuple(i,t,w));
+			adj[i][t] = w ;
 		}
 	}
 	
@@ -75,20 +66,12 @@ int main()
 	}
 
 
-	// Bellman-Ford Example
-	bellman_ford(0);
-	puts("\n\nBellman-Ford source_distance");
-	for(int i=0;i<n;i++)
-		cout << i << ',' << source_distance[i] << ' ';		
+	floyd_warshall();
 
-	// Dijkstra Example
-	for(int i=0;i<n;i++)
-		processed[i] = false;
-	dijkstra(0);
-	puts("\n\nBellman-Ford source_distance");
-	for(int i=0;i<n;i++)
-		cout << i << ',' << source_distance[i] << ' ';
-
+	puts("Distance Matrix After Floyd-Warshall");
+	for (int i = 0; i < n; printf("\n"),i++)
+		for (int j = 0; j < n; printf(" "),j++)
+			cout << source_distance[i][j];
 
 	return 0;
 }
