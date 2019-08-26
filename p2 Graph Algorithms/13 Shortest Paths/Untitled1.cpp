@@ -72,6 +72,7 @@ void dijkstra(int x)
 	}
 	/*
 	Complexity is O(m + n*log(n)), as each edge is processed once only
+	Note: This book has swapped m & n, and tried to justify that :p
 	*/
 }
 
