@@ -57,6 +57,17 @@ m & n are interchanged in both formulae, & author did try to justify that :p
 
 using namespace std;
 
+
+int n; // Number of Nodes
+// adjancency list representation
+map<int,vector<pair<int,int>>> adj;
+//edges list reprsentation for Bellman-Ford
+vector<tuple<int,int,int>> edges;
+
+// Edges to be stored representingg MSTs
+vector<tuple<int,int,int>> k_mst,p_mst;
+
+
 void init_union_find()
 {
 	for (int i = 0; i < n; i++)
@@ -88,7 +99,62 @@ void unite(int a, int b)
 	link[b] = a;
 }
 
+void kruskal()
+{
+	
+}
+
+void prims()
+{
+	
+}
+
 int main()
 {
+	int u,v,w;
+	cout << "Enter number of nodes" << '\n';
+	cin >> n;
+	
+	for(int i=0,k;i<n;i++)
+	{
+		adj[i] = vector<pair<int,int>> ();
+		cout << "Enter |Edges| from " << i << '\n';
+		cin >> k;
+		cout << "Enter " << k << " edges" << '\n';
+		for(int j=0,t,w;j<k;j++)
+		{
+			cin >> t >> w;
+			adj[i].push_back(make_pair(t,w));
+			edges.push_back(make_tuple(i,t,w));
+		}
+	}
+	
+	puts("Adjaceny List is as follows");
+	for(int i=0;i<n;i++)
+	{
+		cout << i << " : ";
+		for(auto x:adj[i])
+			cout << '(' << x.first << ',' << x.second << ')' << ' ';
+		cout << '\n';
+	}
+
+	kruskal();
+	puts("\nMST by Kruskal Algorithsm is");
+	for(auto x:k_mst)
+	{
+		tie(u,v,w) = x;
+		cout << '(' << u << ',' << v << ',' << w << ')' << '\n';
+	}
+	
+	
+	prims();
+	puts("\nMST by Prim's Algorithsm is");
+	for(auto x:p_mst)
+	{
+		tie(u,v,w) = x;
+		cout << '(' << u << ',' << v << ',' << w << ')' << '\n';
+	}
+
+
 	return 0;
 }
