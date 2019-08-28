@@ -61,7 +61,9 @@ using namespace std;
 int n; // Number of Nodes
 // adjancency list representation
 map<int,vector<pair<int,int>>> adj;
-//edges list reprsentation for Bellman-Ford
+// for Union find
+vector<int> link, size;
+//edges list reprsentation for Kruskal
 vector<tuple<int,int,int>> edges;
 
 // Edges to be stored representingg MSTs
@@ -72,8 +74,8 @@ void init_union_find()
 {
 	for (int i = 0; i < n; i++)
 	{
-		link[i] = i;
-		size[i] = 1;
+		link.push_back(i);
+		size.push_back(1);
 	}
 }
 
@@ -101,7 +103,12 @@ void unite(int a, int b)
 
 void kruskal()
 {
-	
+	int u,v,w;
+	for(auto x:edges)
+	{
+		tie(u,v,w)=x;
+		
+	}
 }
 
 void prims()
@@ -138,6 +145,7 @@ int main()
 		cout << '\n';
 	}
 
+	init_union_find();
 	kruskal();
 	puts("\nMST by Kruskal Algorithsm is");
 	for(auto x:k_mst)
