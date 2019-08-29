@@ -65,7 +65,8 @@ map<int,vector<pair<int,int>>> adj;
 vector<int> link, size;
 //edges list reprsentation for Kruskal
 vector<tuple<int,int,int>> edges;
-
+// vector for taken in major component by prims
+vector<bool> taken;
 // Edges to be stored representingg MSTs
 vector<tuple<int,int,int>> k_mst,p_mst;
 
@@ -91,7 +92,7 @@ bool same(int a, int b)
 	return find(a) == find(b);
 }
 
-void unite(int a, int b)
+int unite(int a, int b)
 {
 	a = find(a);
 	b = find(b);
@@ -99,21 +100,61 @@ void unite(int a, int b)
 		swap(a,b);
 	size[a] += size[b];
 	link[b] = a;
+	return a;
 }
+
+bool edge_comp(tuple<int,int,int> a, tuple<int,int,int> b)
+{
+	return get<2>(a) < get<2>(b);
+}
+
 
 void kruskal()
 {
 	int u,v,w;
+	sort(edges.begin(),edges.end(),edge_comp);
 	for(auto x:edges)
-	{
+	{ //Iterate over all edges sorted in ascending order of weights
 		tie(u,v,w)=x;
-		
+		if(!same(u,v))
+		{ // if both are from different components, use edge
+			int top = unite(u,v);
+			k_mst.push_back(x);
+			if(size[top]==n)
+			{ // If everything is in one component
+				break;
+			}
+			
+		}
 	}
 }
 
 void prims()
 {
+	int u,v,w,component_size = 1;
+	taken[0] = true;
+	priority_queue<tuple<int,int,int>> pq;
+	for(auto x:adj[0]) // (w,u,v) for pq storage
+		pq.push(make_tuple(-1*x.second,0,x.first));
 	
+	while(1)
+	{
+		tie(w,u,v) = pq.top();
+		cout << '(' << -1*w << ',' << u << ',' << v << ')' << '\n';
+		pq.pop();
+		if( (taken[u]) && (!taken[v]) )
+		{ // if v is not in present component already
+			taken[v] = true;
+			puts("taken");
+			component_size += 1;
+			p_mst.push_back(make_tuple(u,v,-1*w));
+			for(auto x:adj[v]) // (w,u,v) for pq storage
+				if(!taken[x.first])
+					pq.push(make_tuple(-1*x.second,v,x.first));
+		}
+		if(component_size==n)
+			break;
+	}
 }
 
 int main()
@@ -147,16 +188,17 @@ int main()
 
 	init_union_find();
 	kruskal();
-	puts("\nMST by Kruskal Algorithsm is");
+	puts("\nMST by Kruskal Algorithm is");
 	for(auto x:k_mst)
 	{
 		tie(u,v,w) = x;
 		cout << '(' << u << ',' << v << ',' << w << ')' << '\n';
 	}
 	
-	
+	for(int i=0;i<n;i++)
+		taken.push_back(false);
 	prims();
-	puts("\nMST by Prim's Algorithsm is");
+	puts("\nMST by Prim's Algorithm is");
 	for(auto x:p_mst)
 	{
 		tie(u,v,w) = x;
