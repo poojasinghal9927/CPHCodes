@@ -1,8 +1,10 @@
-// Directed Graphs
+// Dynamic Programming
+
 /*
-We will discuss
-Acyclic Graphs  : 
-Successor Graph : 
+1. How many different paths are there?
+2. What is shortest/longest path?
+3. What is minimum/maximum number of edges in a path?
+4. Which node certainly appears in any path?
 */
 
 #include<bits/stdc++.h>
@@ -76,21 +78,7 @@ int main()
 	}
 	
 
-	// Topological Sort using DFS Example
-	for(int i=0;i<N;i++)
-		visited[i] = false;
-	bool top_exist=true;
-	for(int i=0;i<N;i++)
-		if(!visited[i])
-			top_exist = dfs(i);
-	if(top_exist)
-	{
-		puts("\n\nTopolocgial sort order");
-		for( auto x=dfs_order.rbegin() ; x!=dfs_order.rend() ; x++ )
-			cout << *x << ' ';
-	}
-	else
-		puts("\n\nNO Topolocgial order exist");
-
+	
+	
 	return 0;
 }
