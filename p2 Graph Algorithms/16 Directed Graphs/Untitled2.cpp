@@ -5,6 +5,8 @@
 2. What is shortest/longest path?
 3. What is minimum/maximum number of edges in a path?
 4. Which node certainly appears in any path?
+
+Above problem's solutions are provided in this file
 */
 
 #include<bits/stdc++.h>
