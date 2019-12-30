@@ -1,3 +1,4 @@
+# Code Gratefully taken from keras.io
 import keras
 from keras.datasets import cifar10
 
